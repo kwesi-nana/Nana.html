@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Baisie Quiz</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background: linear-gradient(to right, #ff7eb3, #65c7f7, #0052d4);
+        color: white;
+        margin: 0;
+        padding: 0;
+    }
+    h1 {
+        font-size: 3em;
+        margin-top: 20px;
+        text-shadow: 2px 2px 5px black;
+    }
+    .quiz-container {
+        background: rgba(0,0,0,0.5);
+        padding: 20px;
+        border-radius: 15px;
+        width: 80%;
+        max-width: 500px;
+        margin: auto;
+    }
+    button {
+        background: #ffdd57;
+        color: black;
+        font-size: 1.2em;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 10px;
+        margin: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    button:hover {
+        background: #ffe98a;
+    }
+    .score {
+        font-size: 1.5em;
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+
+<h1>Baisie Quiz</h1>
+<div class="quiz-container">
+    <p id="question"></p>
+    <div id="answer-buttons"></div>
+    <button onclick="nextQuestion()">Next</button>
+    <div class="score" id="score"></div>
+</div>
+
+<script>
+const questions = [
+    {
+        question: "What is the capital of Ghana?",
+        answers: [
+            { text: "Accra", correct: true },
+            { text: "Kumasi", correct: false },
+            { text: "Tamale", correct: false }
+        ]
+    },
+    {
+        question: "Which planet is called the Red Planet?",
+        answers: [
+            { text: "Mars", correct: true },
+            { text: "Venus", correct: false },
+            { text: "Jupiter", correct: false }
+        ]
+    },
+    {
+        question: "What is 5 + 3?",
+        answers: [
+            { text: "8", correct: true },
+            { text: "10", correct: false },
+            { text: "6", correct: false }
+        ]
+    }
+];
+
+let currentQuestionIndex = 0;
+let score = 0;
+
+function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    showQuestion(questions[currentQuestionIndex]);
+}
+
+function showQuestion(question) {
+    document.getElementById("question").innerText = question.question;
+    const buttons = document.getElementById("answer-buttons");
+    buttons.innerHTML = "";
+    question.answers.forEach(answer => {
+        const button = document.createElement("button");
+        button.innerText = answer.text;
+        button.onclick = () => selectAnswer(answer.correct);
+        buttons.appendChild(button);
+    });
+}
+
+function selectAnswer(correct) {
+    if (correct) {
+        score++;
+        alert("✅ Correct!");
+    } else {
+        alert("❌ Wrong!");
+    }
+    document.getElementById("score").innerText = `Score: ${score}`;
+}
+
+function nextQuestion() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+        showQuestion(questions[currentQuestionIndex]);
+    } else {
+        alert(`Quiz Over! Your final score is ${score}`);
+        startQuiz();
+    }
+}
+
+startQuiz();
+</script>
+
+</body>
+</html>
